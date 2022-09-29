@@ -450,11 +450,16 @@ function categorySave(element, id, category) {
   input.disabled = "true";
   editBtn.style.display = "flex";
   saveBtn.style.display = "none";
+
   let newValue = input.value;
-  // if(!newValue) return
+
+  // if input value is empty
+  if (!newValue) return;
 
   let previousValue = "";
 
+  // if category == expence then set teh previous value base on expenceCategory [] and update the expenceCategory base on new input value
+  // if category == income then set the previous value base on incomeCategory [] and update the incomeCategory base on new input value
   if (category == "expence") {
     previousValue = expCategory[id];
     expCategory[id] = newValue;
@@ -465,6 +470,7 @@ function categorySave(element, id, category) {
     localStorage.setItem("incomeCategory", JSON.stringify(incomeCategory));
   }
 
+  // update the expenceIncome [] base on category
   expanceIncomeData.forEach((e, i) => {
     if (e.category == previousValue) {
       expanceIncomeData[i] = {
@@ -475,11 +481,38 @@ function categorySave(element, id, category) {
       };
     }
   });
-
   localStorage.setItem("expanceIncomeData", JSON.stringify(expanceIncomeData));
 
+  // invoke the spending section and transection section the see the update
   spendingSection();
   transectionSection();
+  // update the google table
+  FunctionalitiesClass.loadGoogleChart();
+}
+
+// category section :cancle category button
+function categoryCancle(element, id, category) {
+  const expCategory = JSON.parse(localStorage.getItem("expCategory"));
+  const incomeCategory = JSON.parse(localStorage.getItem("incomeCategory"));
+  const editBtn = element.children[1];
+  const saveBtn = element.lastElementChild;
+  const input = element.firstElementChild.firstElementChild;
+
+  input.disabled = "true";
+  editBtn.style.display = "flex";
+  saveBtn.style.display = "none";
+
+  let inputValue = "";
+  // find the orignal value teh teh inptu base on id
+  // incase of expecse find the value from exenceCategory []
+  // incase of income find the value from incomeCategory []
+  if (category == "expence") {
+    inputValue = expCategory[id];
+  } else if (category == "income") {
+    inputValue = incomeCategory[id];
+  }
+  input.value = inputValue;
+  return;
 }
 
 //  category section :  Add button
@@ -525,7 +558,7 @@ function optionHTML(e, i) {
       type="radio"
       value=${e}
       name="default-radio"
-      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+      class="w-4 h-4 text-blue-600 bg-yellow-100 border-yellow-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-yellow-700 focus:ring-2 dark:bg-yellow-600 dark:border-yellow-500"
     />
     <label
       for="default-radio-1"
@@ -592,17 +625,27 @@ type="button" class="py-2 px-3 text-xs font-medium text-center rounded-none text
 </td>
 <td 
 scope="col"
-class=" hidden py-3 px-6 font-medium whitespace-nowrap  items-center justify-center"
+class=" hidden py-3 px-6 font-medium whitespace-nowrap gap-4  items-center justify-center"
 id="transectionTotalExpence"
 >
 
-<button
+
+ <button
+ category = ${category}
+ onclick ="categorySave(this.parentElement.parentElement  ,${i} , '${category}')"
+ type="button" class="py-2  px-3 text-xs font-medium text-center rounded-none text-white mt-3
+  bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 ">
+  Save
+  </button>
+  <button
 category = ${category}
-onclick ="categorySave(this.parentElement.parentElement  ,${i} , '${category}')"
+onclick ="categoryCancle(this.parentElement.parentElement  ,${i} , '${category}')"
 type="button" class="py-2  px-3 text-xs font-medium text-center rounded-none text-white mt-3
- bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 ">
- Save
+ bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 ">
+ Cancle
  </button>
+
+
 </td
 
   `;
