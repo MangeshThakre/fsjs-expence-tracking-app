@@ -14,7 +14,7 @@ __Build this Expence tracking application using__
 <br>
 ## 👉👉 [Live link](https://fsjs-expence-tracking-app.netlify.app)
 
-* __Functionalities__
+* __🤖 Functionalities__
 1.  Add income
 2.  Add expence
 3.  log of Income and Expence in transection section
@@ -26,7 +26,7 @@ __Build this Expence tracking application using__
 9.  Reset all Data
 10.  use the local-storage for storing the expence,income category and expence income log data
 
-#### What I have learned
+#### 👍 What I have learned
 * create function for every functionalities tried DRY method,
 * learn about how to implyment google pi-chart,
 * improve dom manipulation 
