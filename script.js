@@ -39,6 +39,9 @@ const addIncomeInput = document.querySelector("#addIncomeInput");
 // expence income section
 const expenceIncomeDate = document.querySelector("#expenceIncomeDate");
 const amount = document.querySelector("#amount");
+const incomeExpenceSectionTableHeading = document.querySelector(
+  "#incomeExpenceSectionTableHeading"
+);
 
 // alert
 const popupAlert = document.querySelector('[role="alert"]');
@@ -72,6 +75,7 @@ class Functionalities {
       expenceBtnEle.style.background = "#fef08a";
       incomeBtnEle.style.background = "transparent";
       expenceIncomeSubmitBtn.setAttribute("selector", "expence");
+      incomeExpenceSectionTableHeading.textContent = "expence";
 
       const expCategory = JSON.parse(localStorage.getItem("expCategory"));
       expCategory.forEach((e, i) => this.appendCategoryOptions(e, i));
@@ -79,6 +83,8 @@ class Functionalities {
       incomeBtnEle.style.background = "#fef08a";
       expenceBtnEle.style.background = "transparent";
       expenceIncomeSubmitBtn.setAttribute("selector", "income");
+      incomeExpenceSectionTableHeading.textContent = "Income";
+
       const incomeCategory = JSON.parse(localStorage.getItem("incomeCategory"));
 
       incomeCategory.forEach((e, i) => this.appendCategoryOptions(e, i));
@@ -167,6 +173,10 @@ class Functionalities {
       tr.className = "bg-yellow-300 border-b text-gray-900";
       tr.innerHTML = categoryTable(e, i, category);
       categoryTbody.appendChild(tr);
+      // found some bug if input value have more then one word eg"eading out"
+      // useing innerHTML = `<input  value=${e} >` output will display like "ending"
+      // thats why adding the value of input using js instate of innerHTMl
+      tr.firstElementChild.firstElementChild.value = e;
     });
   }
 
@@ -525,8 +535,7 @@ function addIncomeCategory(event) {
   const incomeCategory = JSON.parse(localStorage.getItem("incomeCategory"));
   const category = event.target[0].value;
 
-  console.log(event.target[0].value);
-
+  // if the category already exist then show alert and return
   if (incomeCategory.includes(category)) {
     setTimeout(() => {
       popupAlert.style.display = "none";
@@ -541,6 +550,9 @@ function addIncomeCategory(event) {
   );
 
   FunctionalitiesClass.loadCategoryTable(newIncomeCategory, "income");
+
+  // finaly remove teh inpt value
+  event.target[0].value = "";
 }
 
 // reset all
