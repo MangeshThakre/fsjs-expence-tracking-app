@@ -454,7 +454,10 @@ function categorySave(element, id, category) {
   let newValue = input.value;
 
   // if input value is empty
-  if (!newValue) return;
+  if (!newValue) {
+    categoryCancle(element, id, category);
+    return;
+  }
 
   let previousValue = "";
 
