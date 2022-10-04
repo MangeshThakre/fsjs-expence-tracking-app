@@ -75,7 +75,7 @@ class Functionalities {
       expenceBtnEle.style.background = "#fef08a";
       incomeBtnEle.style.background = "transparent";
       expenceIncomeSubmitBtn.setAttribute("selector", "expence");
-      incomeExpenceSectionTableHeading.textContent = "expence";
+      incomeExpenceSectionTableHeading.textContent = "Expense";
 
       const expCategory = JSON.parse(localStorage.getItem("expCategory"));
       expCategory.forEach((e, i) => this.appendCategoryOptions(e, i));
@@ -243,7 +243,7 @@ class Functionalities {
 
       // Optional; add a title and set the width and height of the chart
       var options = {
-        title: `Total Expence: rs ${loadTotalExpencePrice} `,
+        title: `Total Expense: rs ${loadTotalExpencePrice} `,
         width: 500,
         height: 350,
         // is3D: true,
@@ -413,13 +413,13 @@ function expanceIncomeSubmit(event) {
   initialLoad();
 }
 
-//  toggle expence and income categories category section
+// category section :  toggle expence and income categories
 function selectExpenceIncomeCategory(element) {
   addIncomeInput.value = "";
   if (element.id == "categoriesExpenceBtn") {
     element.style.backgroundColor = "#fef08a";
     categoriesIncomeBtn.style.backgroundColor = "transparent";
-    document.querySelector("#categoryHead").textContent = "Expence";
+    document.querySelector("#categoryHead").textContent = "Expense";
     document.querySelector("#addIncomeCategdory").style.display = "none";
     const expCategory = JSON.parse(localStorage.getItem("expCategory"));
     FunctionalitiesClass.loadCategoryTable(expCategory, "expence");
